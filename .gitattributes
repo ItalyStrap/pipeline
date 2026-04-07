@@ -11,7 +11,7 @@
 /ecs.php export-ignore
 /example.php export-ignore
 /Makefile export-ignore
-/phpbench.json.dist export-ignore
+/phpbench.json export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
 /rector.php export-ignore
