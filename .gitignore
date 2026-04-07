@@ -1,0 +1,6 @@
+# Directories
+/vendor
+/tests/.output
+
+# Files
+/composer.lock

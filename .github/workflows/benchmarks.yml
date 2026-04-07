@@ -1,0 +1,36 @@
+name: Benchmark
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  bench:
+    name: 🐘 Bench under PHP ${{ matrix.php_versions }}
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '--skip ci') && !github.event.pull_request.draft"
+
+    strategy:
+      matrix:
+        php_versions: [ '8.2', '8.3', '8.4' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_versions }}
+          coverage: "pcov"
+          tools: composer:v2
+
+      - uses: ramsey/composer-install@v3
+
+      - name: Run PHPBench suite
+        run: vendor/bin/phpbench run --report=stats

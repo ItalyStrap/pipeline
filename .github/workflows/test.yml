@@ -1,0 +1,41 @@
+name: Unit Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  tests:
+    name: 🐘 Test on PHP ${{ matrix.php_versions }}
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '--skip ci') && !github.event.pull_request.draft"
+
+    strategy:
+      matrix:
+        php_versions:
+          - "8.2"
+          - "8.3"
+          - "8.4"
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php_versions }}
+        coverage: pcov
+        tools: composer:v2
+
+    - uses: ramsey/composer-install@v3
+      with:
+        composer-options: "--prefer-dist"
+
+    - name: Run test suite
+      run: vendor/bin/phpunit --coverage-text
