@@ -27,7 +27,7 @@ final class ConsoleHandlerTest extends UnitTestCase
     public function itReturnsIntFromMiddleware(): void
     {
         $handler = new ConsoleHandler(
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     return 42;
@@ -44,13 +44,13 @@ final class ConsoleHandlerTest extends UnitTestCase
     public function itProcessesMiddlewareChainAndReturnsInt(): void
     {
         $handler = new ConsoleHandler(
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     return $handler->handle($message);
                 }
             },
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     return $handler->handle($message);
@@ -81,7 +81,7 @@ final class ConsoleHandlerTest extends UnitTestCase
         };
 
         $handler = new ConsoleHandler(
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     if (\method_exists($message, 'changeValue')) {
@@ -91,7 +91,7 @@ final class ConsoleHandlerTest extends UnitTestCase
                     return $handler->handle($message);
                 }
             },
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     if (\method_exists($message, 'changeValue')) {
@@ -113,7 +113,7 @@ final class ConsoleHandlerTest extends UnitTestCase
     public function middlewareCanShortCircuitWithFailure(): void
     {
         $handler = new ConsoleHandler(
-            new class() implements MiddlewareInterface {
+            new /** @implements MiddlewareInterface<MessageInterface> */ class() implements MiddlewareInterface {
                 public function process(object $message, HandlerInterface $handler): mixed
                 {
                     return ConsoleHandler::FAILURE;

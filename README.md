@@ -44,7 +44,8 @@ The message flows through middleware in the order they were provided, then reach
 - **[Pipeline](docs/03-pipeline.md)** — The main pipeline dispatcher
 - **[Helpers](docs/04-helpers.md)** — `CallbackHandler`, `DecorateHandler`, `NoHandlerProvided`
 - **[Pipeline vs DecorateHandler](docs/05-pipeline-vs-decorate-handler.md)** — When to use which
-- **[Wrapping the Pipeline](docs/06-wrapping-the-bus.md)** — Adapting the generic pipeline to typed contracts (e.g. CLI exit codes)
+- **[Wrapping the Pipeline](docs/06-wrapping-the-pipeline.md)** — Adapting the generic pipeline to typed contracts (e.g. CLI exit codes)
+- **[Typed Messages](docs/07-typed-messages.md)**: Generic message types for PHPStan and Psalm
 
 ## License
 

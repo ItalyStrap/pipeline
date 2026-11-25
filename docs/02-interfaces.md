@@ -13,7 +13,7 @@ interface HandlerInterface
 }
 ```
 
-- Accepts any `object` as the message.
+- Accepts any `object` as the message, a class can declare the one it handles, see [Typed Messages](07-typed-messages.md).
 - Returns `mixed` — the caller decides what the result type means in their context.
 
 ### Implementing a Handler
