@@ -15,6 +15,8 @@ use ItalyStrap\Pipeline\Pipeline;
  *
  * This demonstrates how a CLI tool (e.g. one built on Symfony Console)
  * would adapt the generic Pipeline to its specific contract.
+ *
+ * @implements HandlerInterface<object>
  */
 final readonly class ConsoleHandler implements HandlerInterface
 {
@@ -22,13 +24,19 @@ final readonly class ConsoleHandler implements HandlerInterface
 
     public const FAILURE = 1;
 
+    /**
+     * @var Pipeline<MessageInterface>
+     */
     private Pipeline $pipeline;
 
+    /**
+     * @param MiddlewareInterface<MessageInterface> ...$middleware
+     */
     public function __construct(MiddlewareInterface ...$middleware)
     {
         $this->pipeline = new Pipeline(
             new CallbackHandler(
-                static fn (object $message): int => self::SUCCESS
+                static fn (MessageInterface $message): int => self::SUCCESS
             ),
             ...$middleware,
         );

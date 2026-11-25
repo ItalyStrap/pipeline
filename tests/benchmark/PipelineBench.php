@@ -14,10 +14,13 @@ use ItalyStrap\Pipeline\Pipeline;
  */
 final class PipelineBench
 {
+    /**
+     * @var CallbackHandler<object>
+     */
     private CallbackHandler $handler;
 
     /**
-     * @var list<MiddlewareInterface>
+     * @var list<MiddlewareInterface<object>>
      */
     private array $middleware = [];
 
@@ -61,6 +64,9 @@ final class PipelineBench
         $this->createHandler(10)->handle(new \stdClass());
     }
 
+    /**
+     * @return Pipeline<object>
+     */
     private function createHandler(int $middlewareCount = 0): Pipeline
     {
         return new Pipeline(

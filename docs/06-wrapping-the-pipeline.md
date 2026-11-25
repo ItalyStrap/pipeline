@@ -15,6 +15,7 @@ Create a thin wrapper that:
 1. Composes a `Pipeline` internally.
 2. Accepts middleware via its own constructor.
 3. Narrows the return type and injects the default.
+4. Accepts only the messages of the application, here the ones implementing its own `MessageInterface`.
 
 ```php
 <?php
@@ -29,15 +30,24 @@ use ItalyStrap\Pipeline\HandlerInterface;
 use ItalyStrap\Pipeline\MiddlewareInterface;
 use Symfony\Component\Console\Command\Command;
 
+/**
+ * @implements HandlerInterface<object>
+ */
 final class ConsoleHandler implements HandlerInterface
 {
+    /**
+     * @var Pipeline<MessageInterface>
+     */
     private Pipeline $pipeline;
 
+    /**
+     * @param MiddlewareInterface<MessageInterface> ...$middleware
+     */
     public function __construct(MiddlewareInterface ...$middleware)
     {
         $this->pipeline = new Pipeline(
             new CallbackHandler(
-                static fn (object $message): int => Command::SUCCESS
+                static fn (MessageInterface $message): int => Command::SUCCESS
             ),
             ...$middleware,
         );
@@ -54,9 +64,11 @@ final class ConsoleHandler implements HandlerInterface
 }
 ```
 
-## Real-World Example: Bone's ConsoleHandler
+The wrapper accepts any `object` and checks it once at the entry, while its middleware declare the message they work with, see [Typed Messages](07-typed-messages.md).
 
-The `theme-json-generator` package (a CLI scaffolding tool for the `theme.json` file) for example uses `italystrap/pipeline` like this:
+## Real-World Example
+
+A CLI tool, for example a scaffolding tool built on Symfony Console, uses the wrapper like this:
 
 ```php
 $handler = new ConsoleHandler(

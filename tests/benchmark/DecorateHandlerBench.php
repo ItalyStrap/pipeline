@@ -14,8 +14,14 @@ use ItalyStrap\Pipeline\MiddlewareInterface;
  */
 final class DecorateHandlerBench
 {
+    /**
+     * @var CallbackHandler<object>
+     */
     private CallbackHandler $innerHandler;
 
+    /**
+     * @var MiddlewareInterface<object>
+     */
     private MiddlewareInterface $middleware;
 
     public function setUp(): void
